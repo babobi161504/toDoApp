@@ -1,9 +1,10 @@
+const { httpStatusCodes } = require("../utils/constant");
 const taskControllers = require("./tasks");
 const userControllers = require("./users");
 
-function handleNotFound(req, res) {
-  res.stastusCode = 404;
-  res.end("Not found");
+function handleNotFound(request, response) {
+  response.statusCode = httpStatusCodes.NOT_FOUND;
+  response.end("Not found");
 }
 module.exports = {
   handleNotFound,

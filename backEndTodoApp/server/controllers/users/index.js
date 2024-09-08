@@ -2,6 +2,7 @@ const fs = require('fs')
 const { Module } = require('module')
 const { buffer } = require('stream/consumers')
 const path = "./user.json"
+const { httpStatusCodes } = require("../../utils/constant");
 
 function handleLogin(request, response) {
     const chunks = []
@@ -14,7 +15,7 @@ function handleLogin(request, response) {
         fs.readFile(path, "utf8", (error, data) => {
             if(error) {
                 console.log(error)
-                response.statusCode = 500
+                response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR
                 response.end("Internal server error")
                 return
             }
@@ -30,16 +31,16 @@ function handleLogin(request, response) {
                 fs.writeFile(path, JSON.stringify(users), (error) => {
                     if (error) {
                         console.log(error)
-                        response.statusCode = 500
+                        response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR
                         response.end("Internal server error")
                         return
                     }
                 })
-                response.statusCode = 200
+                response.statusCode = httpStatusCodes.OK
                 response.end(token)
                 return
             }
-            response.statusCode = 401
+            response.statusCode = httpStatusCodes.UNAUTHORIZED
             response.end("Invalid username or password")
         })
     })

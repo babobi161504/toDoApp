@@ -1,22 +1,24 @@
+const { httpMethods } = require("../utils/constant");
+
 const routerMethods = {
-  get: function (request, resonse, path, callback) {
-    if (path === request.url && req.method === "GET") {
-      callback(request, resonse);
+  get: function (request, response, path, callback) {
+    if (path === request.url && request.method === httpMethods.GET) {
+      callback(request, response);
     }
   },
-  post: function (request, resonse, path, callback) {
-    if (path === request.url && request.method === "POST") {
-      callback(request, resonse);
+  post: function (request, response, path, callback) {
+    if (path === request.url && request.method === httpMethods.POST) {
+      callback(request, response);
     }
   },
-  put: function (request, resonse, path, callback) {
-    if (path === request.url && request.method === "PUT") {
-      callback(req, resonse);
+  put: function (request, response, path, callback) {
+    if (path === request.url && request.method === httpMethods.PUT) {
+      callback(req, response);
     }
   },
-  delete: function (request, resonse, path, callback) {
-    if (path === request.url && request.method === "DELETE") {
-      callback(request, resonse);
+  delete: function (request, response, path, callback) {
+    if (path === request.url && request.method === httpMethods.DELETE) {
+      callback(request, response);
     }
   },
 };

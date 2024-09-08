@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { user } = require('../../router/routes');
+const { httpStatusCodes } = require('../../utils/constant');
 
 const path = "./tasks.json";
 const userPath = "./user.json";
@@ -36,21 +37,21 @@ function handleAddTask(request, response) {
         fs.readFile(userPath, "utf8", (error, data) => {
             if (error) {
                 console.log(error);
-                response.statusCode = 500;
+                response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                 response.end();
                 return;
             }
             const users = JSON.parse(data);
             const user = users.find(u => u.username === bearerToken.split(".")[0] && u.password === bearerToken.split(".")[1]);
             if (!user) {
-                response.statusCode = 401;
+                response.statusCode = httpStatusCodes.UNAUTHORIZED;
                 response.end("Unauthorized");
                 return;
             } else {
                 fs.readFile(path, "utf8", (error, data) => {
                     if (error) {
                         console.log(error);
-                        response.statusCode = 500;
+                        response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                         response.end();
                         return;
                     }
@@ -66,12 +67,12 @@ function handleAddTask(request, response) {
                     fs.writeFile(path, JSON.stringify(tasks), (error) => {
                         if (error) {
                             console.log(error);
-                            response.statusCode = 500;
+                            response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                             response.end();
                             return;
                         }
                     });
-                    response.statusCode = 200;
+                    response.statusCode = httpStatusCodes.OK;
                     response.end(JSON.stringify(newTask));
                 });
             }
@@ -91,7 +92,7 @@ function handleGetTasksById(request, response) {
         fs.readFile(userPath, "utf8", (error, data) => {
             if (error) {
                 console.log(error);
-                response.statusCode = 500;
+                response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                 response.end();
                 return;
             }
@@ -100,21 +101,21 @@ function handleGetTasksById(request, response) {
             const user = users.find(u => u.username === bearerToken.split(".")[0] && u.password === bearerToken.split(".")[1]);
             console.log(user);
             if (!user) {
-                response.statusCode = 401;
+                response.statusCode = httpStatusCodes.UNAUTHORIZED;
                 response.end("Unauthorized");
                 return;
             }else{
                 fs.readFile(path, "utf8", (error, data) => {
                     if (error) {
                         console.log(error);
-                        response.statusCode = 500;
+                        response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                         response.end();
                         return;
                     }
                     const tasks = JSON.parse(data);
         
                     const userTasks = tasks.filter(t => t.owner === user.username);
-                    response.statusCode = 200;
+                    response.statusCode = httpStatusCodes.OK;
                     response.end(JSON.stringify(tasks));
                 });
             }
@@ -134,7 +135,7 @@ function handleUpdateTask(request, response) {
         fs.readFile(path, "utf8", (error, data) => {
             if (error) {
                 console.log(error);
-                response.statusCode = 500;
+                response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                 response.end();
                 return;
             }
@@ -144,7 +145,7 @@ function handleUpdateTask(request, response) {
             const index = tasks.findIndex(t => t.id === updatedTask.id);
             if (index === -1) {
                 // Không tìm thấy task với id tương ứng
-                response.statusCode = 404;
+                response.statusCode = httpStatusCodes.NOT_FOUND;
                 response.end(JSON.stringify({ error: "Task not found" }));
                 return;
             }
@@ -156,12 +157,12 @@ function handleUpdateTask(request, response) {
             fs.writeFile(path, JSON.stringify(tasks), (error) => {
                 if (error) {
                     console.log(error);
-                    response.statusCode = 500;
+                    response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                     response.end();
                     return;
                 }
             });
-            response.statusCode = 200;
+            response.statusCode = httpStatusCodes.OK;
             response.end(JSON.stringify(updatedTask));
         });
     });
@@ -178,7 +179,7 @@ function handleDeleteTaskById(request, response) {
         fs.readFile(path, "utf8", (error, data) => {
             if (error) {
                 console.log(error);
-                response.statusCode = 500;
+                response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                 response.end();
                 return;
             }
@@ -194,12 +195,12 @@ function handleDeleteTaskById(request, response) {
             fs.writeFile(path, JSON.stringify(newTasks), (error) => {
                 if (error) {
                     console.log(error);
-                    response.statusCode = 500;
+                    response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                     response.end();
                     return;
                 }
             });
-            response.statusCode = 200;
+            response.statusCode = httpStatusCodes.OK;
             response.end(`Task with id ${taskId} was deleted`);
         });
     });
