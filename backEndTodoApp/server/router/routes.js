@@ -1,6 +1,6 @@
-const { url } = require("inspector");
 module.exports = {
-  task: {
+  tasks: {
+    value: "tasks",
     addTask: {
       value: "/add-task",
     },

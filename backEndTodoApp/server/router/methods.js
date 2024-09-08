@@ -1,24 +1,23 @@
 const routerMethods = {
-    get: function (req, res, path, callback) {
-        if(path === req.url && req.method === "GET") {
-            callback(req, res)
-        }
-    },
-    post: function (req, res, path, callback) {
-        if(path === req.url && req.method === "POST") {
-            console.log(callback)
-            callback(req,res)
-        }
-    },
-    put: function (req, res, path, callback) {
-        if(path === req.url && req.method ==="PUT") {
-            callback(req, res)
-        }
-    },
-    delete: function(req, res, path, callback) {
-        if(path === req.url && req.method === "DELETE") {
-            callback(req, res)
-        }
+  get: function (request, resonse, path, callback) {
+    if (path === request.url && req.method === "GET") {
+      callback(request, resonse);
     }
-}
-module.exports=routerMethods
+  },
+  post: function (request, resonse, path, callback) {
+    if (path === request.url && request.method === "POST") {
+      callback(request, resonse);
+    }
+  },
+  put: function (request, resonse, path, callback) {
+    if (path === request.url && request.method === "PUT") {
+      callback(req, resonse);
+    }
+  },
+  delete: function (request, resonse, path, callback) {
+    if (path === request.url && request.method === "DELETE") {
+      callback(request, resonse);
+    }
+  },
+};
+module.exports = routerMethods;

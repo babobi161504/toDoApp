@@ -3,15 +3,15 @@ const routes = require("../routes.js");
 
 const userControllers = require("../../controllers/users/index.js");
 
-
 const userRouter = {
-  run(req, res) {
+  run(request, response) {
     routerMethods.post(
-      req,
-      res,
+      request,
+      response,
       routes.user.login.value,
       userControllers.handleLogin
     );
+    
   },
 };
 module.exports = userRouter;
