@@ -24,5 +24,5 @@ const httpMethods = {
     INTERNAL_SERVER_ERROR: 500
   }
   
-  module.exports = { httpMethods, folderPaths, fileExtensions, httpStatusCodes, routes }
+  module.exports = { httpMethods, folderPaths, fileExtensions, httpStatusCodes }
   

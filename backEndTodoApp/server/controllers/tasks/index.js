@@ -144,7 +144,7 @@ function handleUpdateTask(request, response) {
             
             const index = tasks.findIndex(t => t.id === updatedTask.id);
             if (index === -1) {
-                // Không tìm thấy task với id tương ứng
+                
                 response.statusCode = httpStatusCodes.NOT_FOUND;
                 response.end(JSON.stringify({ error: "Task not found" }));
                 return;
