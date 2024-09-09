@@ -43,6 +43,7 @@ function handleAddTask(request, response) {
             }
             const users = JSON.parse(data);
             const user = users.find(u => u.username === bearerToken.split(".")[0] && u.password === bearerToken.split(".")[1]);
+            console.log(user)
             if (!user) {
                 response.statusCode = httpStatusCodes.UNAUTHORIZED;
                 response.end("Unauthorized");
@@ -58,10 +59,10 @@ function handleAddTask(request, response) {
                     const tasks = JSON.parse(data);
                     delete newTask.token;
         
-                    newTask.owner = user.username;
-                    const timestamp = Date.now(); 
-                    const randomNum = Math.floor(Math.random() * 1000); 
-                    newTask.id = `${timestamp}${randomNum}`; 
+                    newTask.userId = user.userId;
+                    // const timestamp = Date.now(); 
+                    // const randomNum = Math.floor(Math.random() * 1000); 
+                    // newTask.id = `${timestamp}${randomNum}`; 
         
                     tasks.push(newTask);
                     fs.writeFile(path, JSON.stringify(tasks), (error) => {

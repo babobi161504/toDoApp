@@ -90,12 +90,13 @@ function handleResign(request, response) {
         response.end("Username already exists");
         return;
       }
-
+      const userId = `${requestData.username}_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`
       const token = `${requestData.username}.${requestData.password}`;
       const newUser = {
         username: requestData.username,
         password: requestData.password,
         token: token,
+        userId: userId
       };
 
       users.push(newUser);
