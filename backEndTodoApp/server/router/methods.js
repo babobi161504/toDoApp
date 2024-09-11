@@ -13,7 +13,7 @@ const routerMethods = {
   },
   put: function (request, response, path, callback) {
     if (path === request.url && request.method === httpMethods.PUT) {
-      callback(req, response);
+      callback(request, response);
     }
   },
   delete: function (request, response, path, callback) {

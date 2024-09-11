@@ -31,12 +31,12 @@ const userRouter = {
         userControllers.handleLogin
       );
     }
-    if (request.method === httpMethods.POST && request.url === routes.user.resign.value) {
+    if (request.method === httpMethods.POST && request.url === routes.user.register.value) {
       routerMethods.post(
         request,
         response,
-        routes.user.resign.value,
-        userControllers.handleResign
+        routes.user.register.value,
+        userControllers.handleRegister
       );
     }
   },

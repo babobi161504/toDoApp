@@ -18,8 +18,8 @@ module.exports = {
     login: {
       value: "/login",
     },
-    resign: {
-      value: "/resign"
+    register: {
+      value: "/register"
     }
   },
 };
