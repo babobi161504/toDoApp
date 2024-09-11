@@ -193,7 +193,6 @@ async function handleRegister(request, response) {
       const db = await connectToDatabase();
       const usersCollection = db.collection("users");
 
-      // Kiểm tra nếu user đã tồn tại
       const existingUser = await usersCollection.findOne({
         username: requestData.username
       });
