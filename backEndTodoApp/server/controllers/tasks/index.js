@@ -320,79 +320,62 @@ async function handleGetTasksById(request, response) {
 
 // Update
 async function handleUpdateTask(request, response) {
-  try {
-    const chunks = [];
-    request.on("data", (chunk) => {
-      chunks.push(chunk);
-    });
+    try {
+        const chunks = [];
+        request.on('data', chunk => {
+            chunks.push(chunk);
+        });
+        request.on('end', async () => {
+            const taskData = JSON.parse(Buffer.concat(chunks).toString());
+            const db = await connectToDatabase();
+            const tasksCollection = db.collection("tasks");
 
-    request.on("end", async () => {
-      const taskData = JSON.parse(Buffer.concat(chunks).toString());
+            const result = await tasksCollection.updateOne({ id: taskData.id }, { $set: taskData });
 
-      if (!taskData._id) {
-        response.statusCode = httpStatusCodes.BAD_REQUEST;
-        response.end("Task ID is required");
-        return;
-      }
+            if (result.matchedCount === 0) {
+                response.statusCode = httpStatusCodes.NOT_FOUND;
+                response.end("Task not found");
+                return;
+            }
 
-      const db = await connectToDatabase();
-      const tasksCollection = db.collection("tasks");
-
-      const taskId = new ObjectId(taskData._id);
-
-      const updateFields = {};
-      if (taskData.name) updateFields.name = taskData.name;
-      if (taskData.description) updateFields.description = taskData.description;
-
-      const result = await tasksCollection.updateOne(
-        { _id: taskId },  
-        { $set: updateFields }
-      );
-
-      if (result.matchedCount === 0) {
-        response.statusCode = httpStatusCodes.NOT_FOUND;
-        response.end("Task not found");
-        return;
-      }
-      response.statusCode = httpStatusCodes.OK;
-      response.end("Task updated successfully");
-    });
-  } catch (error) {
-    console.error("Error updating task:", error);
-    response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-    response.end("Internal server error");
-  }
+            response.statusCode = httpStatusCodes.OK;
+            response.end(JSON.stringify(taskData));
+        });
+    } catch (error) {
+        console.error(error);
+        response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
+        response.end("Internal server error");
+    }
 }
 
 // Delete
 async function handleDeleteTaskById(request, response) {
-  try {
-    const chunks = [];
-    request.on("data", (chunk) => {
-      chunks.push(chunk);
-    });
-    request.on("end", async () => {
-      const taskId = JSON.parse(Buffer.concat(chunks).toString()).id;
-      const db = await connectToDatabase();
-      const tasksCollection = db.collection("tasks");
-      
-      const result = await tasksCollection.deleteOne({ id: taskId });
+    try {
+        const chunks = [];
+        request.on('data', chunk => {
+            chunks.push(chunk);
+        });
+        request.on('end', async () => {
+            const taskId = JSON.parse(Buffer.concat(chunks).toString()).id;
+            const db = await connectToDatabase();
+            const tasksCollection = db.collection("tasks");
 
-      if (result.deletedCount === 0) {
-        response.statusCode = httpStatusCodes.NOT_FOUND;
-        response.end("Task not found");
-        return;
-      }
-      
-      response.statusCode = httpStatusCodes.OK;
-      response.end(`Task with id ${taskId} was deleted`);
-      
-    });
-  } catch (error) {
-    console.error(error);
-    response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-    response.end("Internal server error");
-  }
+            const result = await tasksCollection.deleteOne({ id: taskId });
+
+            if (result.deletedCount === 0) {
+                response.statusCode = httpStatusCodes.NOT_FOUND;
+                response.end("Task not found");
+                return;
+            }
+
+            response.statusCode = httpStatusCodes.OK;
+            response.end(`Task with id ${taskId} was deleted`);
+        });
+    } catch (error) {
+        console.error(error);
+        response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
+        response.end("Internal server error");
+    }
 }
 
 module.exports = {
