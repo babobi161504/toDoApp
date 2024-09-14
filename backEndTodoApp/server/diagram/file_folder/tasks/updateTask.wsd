@@ -1,0 +1,12 @@
+@startuml handleUpdateTask
+start
+:Receive request from HTTP PUT request to `/tasks/update-task`; 
+if (Extract and Validate Token ?) then (no)
+    :Response status code: error 401(UNAUTHORIZED);
+else (yes)
+    : Update the specified task in  the tasks collections;
+    :Response  status code: 200 (Ok);
+endif
+stop
+@enduml
+dd

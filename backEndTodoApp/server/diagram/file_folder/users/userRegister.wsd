@@ -1,0 +1,13 @@
+@startuml handleRegister
+start
+:Receive request from HTTP POST request to `/users/register`; 
+:Check if a user with the provided username already exists in the users collection;
+if (user is found?) then (no)
+    :create a new user with the provided username and password; 
+    :Insert the new user into the users collection ; 
+    :Respond with the status code 201 (CREATED);
+else(yes)
+    :Response status code: error 409 (CONFLICT);
+endif
+stop
+@endumld

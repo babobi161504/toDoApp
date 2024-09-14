@@ -1,0 +1,11 @@
+@startuml handleDeleteTaskById
+start
+:Receive request from HTTP DELETE request to `/tasks/delete-task`; 
+if (Extract and Validate Token ?) then (no)
+    :Response status code: error 401(UNAUTHORIZED);
+else (yes)
+    :Delete the specified task from the tasks collections;
+    :Response  status code: 200 (Ok);
+endif
+stop
+@enduml
