@@ -1,0 +1,11 @@
+@startuml handleAddTask 
+start
+:Receive request from  HTTP POST request to `/tasks/add-task`; 
+if (Extract and Validate Token ?) then (no)
+    :Response status code: error 401(UNAUTHORIZED);
+else (yes)
+    : Insert the new task into the tasks collections;
+    :Response  status code: 201 (Created);
+endif
+stop
+@enduml
