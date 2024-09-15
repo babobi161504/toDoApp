@@ -8,7 +8,7 @@ const taskRouter = {
       request,
       response,
       routes.tasks.getTask.value,
-      taskControllers.handleGetTasksById
+      taskControllers.handleGetTasksByToken
     );
     routerMethods.post(
       request,
