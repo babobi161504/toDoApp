@@ -290,7 +290,7 @@ async function handleAddTask(request, response) {
 }
 
 // Read
-async function handleGetTasksById(request, response) {
+async function handleGetTasksByToken(request, response) {
   try {
     const bearerToken = request.headers.authorization.split(" ")[1];
 
@@ -402,6 +402,6 @@ async function handleDeleteTaskById(request, response) {
 module.exports = {
   handleAddTask,
   handleUpdateTask,
-  handleGetTasksById,
+  handleGetTasksByToken,
   handleDeleteTaskById,
 };
