@@ -1,0 +1,12 @@
+@startuml handleLogin
+start
+:Receive request from HTTP POST request to `/users/login`; 
+:Find the user with the provided username and password in the ;
+if (user is found?) then (no)
+    : Response status code: error 401 (UNAUTHORIZED);
+else(yes)
+    :generate a token and update the user record with the token;
+    :Response  status code: 200 (Ok);
+endif
+stop
+@endumld

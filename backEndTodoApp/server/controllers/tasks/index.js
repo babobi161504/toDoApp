@@ -293,6 +293,7 @@ async function handleAddTask(request, response) {
 async function handleGetTasksByToken(request, response) {
   try {
     const bearerToken = request.headers.authorization.split(" ")[1];
+
     const db = await connectToDatabase();
     const tasksCollection = db.collection("tasks");
     const usersCollection = db.collection("users");
@@ -306,7 +307,7 @@ async function handleGetTasksByToken(request, response) {
     }
 
     const userTasks = await tasksCollection
-      .find({ userId: user.userId })
+      .find({ ownerId: user._id })
       .toArray();
 
     response.statusCode = httpStatusCodes.OK;

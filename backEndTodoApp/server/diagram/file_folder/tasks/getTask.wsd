@@ -1,0 +1,11 @@
+@startuml handleGetTasksById
+start
+:Receive request from HTTP GET request to `/tasks/get-task`; 
+if (Extract and Validate Token ?) then (no)
+    :Response status code: error 401(UNAUTHORIZED);
+else (yes)
+    : Retrieve tasks associated with the user from  the tasks collections;
+    :Response  status code: 200 (Ok);
+endif
+stop
+@enduml
