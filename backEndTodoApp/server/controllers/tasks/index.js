@@ -259,7 +259,7 @@ async function handleAddTask(request, response) {
       const taskData = JSON.parse(Buffer.concat(chunks).toString());
       const bearerToken = request.headers.authorization.split(" ")[1]; // Lấy token từ header
       const [username, password] = bearerToken.split(".");
-
+      
       const db = client.db("todo_app");
       const users = db.collection("users");
       const tasks = db.collection("tasks");

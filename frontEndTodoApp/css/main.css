@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    flex-direction: column;
+}
+
+#welcome-message {
+    margin-bottom: 20px;
+}
+
+#logout-button {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#logout-button:hover {
+    background-color: #c82333;
+}
+.todo-container {
+    width: 320px;
+    text-align: center;
+}
+
+/* style for element list in todo-input */
+.todo-input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.todo-input {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.todo-input-container button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.todo-input-container button.cancel {
+    background-color: red;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.todo-item span {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.todo-item button {
+    margin-left: 5px;
+    padding: 5px;
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.todo-item button.delete {
+    background-color: red;
+}
+
+/* style for element list in todo-list */
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.todo-list button {
+    margin-left: 5px;
+    padding: 5px;
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-container {
+    margin-top: 10px;
+}
+
+.filter {
+    padding: 5px;
+}
+
+/* Check task CSS */
+.completed span {
+    text-decoration: line-through;
+}
+
+
