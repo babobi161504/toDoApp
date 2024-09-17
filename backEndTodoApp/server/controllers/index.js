@@ -10,5 +10,4 @@ module.exports = {
   handleNotFound,
   taskControllers,
   userControllers,
-  
 };
