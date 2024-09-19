@@ -221,8 +221,8 @@ async function handleRegister(request, response) {
       password: requestData.password,
     });
     response.statusCode = httpStatusCodes.CREATED;
-    const userToken = createBearerToken(user._id);
-    response.end(userToken);
+    // const userToken = createBearerToken(user._id);
+    // response.end(userToken);
     // request.on("data", (chunk) => {
     //   chunks.push(chunk);
     // });

@@ -10,7 +10,7 @@ async function signIn(username, password) {
       password: password,
     };
     const response = await fetch(`${apiUserURL}/login`, {
-      method: "POST",
+      method: "POST", // magic value 
       headers: header,
       body: JSON.stringify(user),
     });
