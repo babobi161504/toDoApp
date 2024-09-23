@@ -1,46 +1,43 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
-    <link rel="stylesheet" href="../CSS/main.css">
-</head>
-<body>
-    <div class="todo-container">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Microsoft_To-Do_icon.svg"
-          alt="Logo"
-          width="50"
-        />
-        <h1><strong>TODO</strong> add or update</h1>
-        <h2>Welcome</h2>
-        <p id="welcome-message"></p>
-        <div class="todo-input-container">
-          <input
-            id="id-todo-input"
-            type="text"
-            class="todo-input"
-            placeholder="Task name..."
-          />
-          <button id="id-add-button">Add</button>
-          <button class="cancel">Cancel</button>
-        </div>
-        <div class="todo-list" id="id-todo-list">
-          
-        </div>
-        <div class="filter-container">
-          <label for="filter">Filter:</label>
-          <select class="filter">
-            <option value="all">All</option>
-            <option value="done">Done</option>
-            <option value="undone">Undone</option>
-          </select>
-        </div>
-      </div>
-      <button id="logout-button">Logout</button>
 
-    <script src="../JAVASCRIPT/main.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+  <div class="todo-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Microsoft_To-Do_icon.svg" alt="Logo" width="50" />
+    <h1><strong>TODO</strong></h1>
+    <p id="welcome-message"></p>
+    <!-- Input container -->
+    <div class="todo-input-container">
+      <input id="todo-input" type="text" class="todo-input" placeholder="Task name..." />
+      <button id="add-button">Add</button>
+      <button id="cancel">Cancel</button>
+    </div>
+    <!-- Task lists -->
+    <div class="todo-list" id="todo-list">
+
+    </div>
+    <!-- Filter -->
+    <div class="filter-container">
+      <label for="filter">Filter:</label>
+      <select id="filter">
+        <option value="all">All</option>
+        <option value="done">Done</option>
+        <option value="undone">Undone</option>
+      </select>
+    </div>
+
+  </div>
+  <!-- Logout -->
+  <button id="logout-button">Logout</button>
+
+  <script src="../javascript/main.js"></script>
 </body>
+
 </html>
