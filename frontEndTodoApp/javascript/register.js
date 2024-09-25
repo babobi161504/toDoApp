@@ -6,11 +6,11 @@ const error = document.querySelector(".error");
 const eyePassword = document.querySelector(".password-eye");
 const eyeRepeatPassword = document.querySelector(".repeat-password-eye");
 const users = JSON.parse(localStorage.getItem("USER_INFO")) || [];
-const apiUserURL = "http://127.0.0.1:3000";
 function generateUserId() {
   return btoa(userName.value) + Date.now();
 }
 
+const apiUserURL = "http://127.0.0.1:3000";
 function handleRegister(event) {
   event.preventDefault();
   const isUserExist = users.some(function (user) {
@@ -33,15 +33,14 @@ function handleRegister(event) {
     localStorage.setItem("USER_INFO", JSON.stringify(users));
     localStorage.removeItem("LOGGED_IN_USER");
 
-    signUp(userName.value, password.value)
-      .then((token) => {
-        console.log("User registered successfully, token:", token);
-        window.location.href = "../html/login.html";
-      })
-      .catch((error) => {
-        console.error("Error during sign up:", error.message);
-        error.innerText = "Failed to sign up. Please try again.";
-      });
+    signUp(userName.value, password.value).then((token) => {
+      console.log("User registered successfully, token:", token);
+      window.location.href = "../html/login.html";
+    });
+    // .catch((error) => {
+    //   console.error("Error during sign up:", error.message);
+    //   error.innerText = "Failed to sign up. Please try again.";
+    // });
     // window.location.href = "../html/login.html";
   }
 }
@@ -49,7 +48,7 @@ formSignUp.addEventListener("submit", handleRegister);
 
 async function signUp(username, password) {
   try {
-    const header = {
+    const headers = {
       "Content-Type": "application/json",
     };
     const user = {
@@ -58,8 +57,9 @@ async function signUp(username, password) {
     };
     const response = await fetch(`${apiUserURL}/register`, {
       method: "POST",
-      headers: header,
+      headers,
       body: JSON.stringify(user),
+      mode: "no-cors",
     });
     if (response.ok) {
       return response.text();
@@ -70,7 +70,7 @@ async function signUp(username, password) {
     throw new Error("Network Error: " + error.message);
   }
 }
-// formSignUp.addEventListener("submit", signUp);
+formSignUp.addEventListener("submit", signUp);
 
 // async function handleRegister(event) {
 //   event.preventDefault();
@@ -90,6 +90,7 @@ async function signUp(username, password) {
 //       headers: {
 //         "Content-Type": "application/json",
 //       },
+//       mode: "no-cors",
 //       body: JSON.stringify({
 //         username: userName.value,
 //         password: password.value,
