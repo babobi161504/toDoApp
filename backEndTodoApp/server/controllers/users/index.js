@@ -155,8 +155,10 @@ async function handleLogin(request, response) {
     });
     if (user) {
       const userToken = createBearerToken(user._id);
-      response.statusCode = httpStatusCodes.OK;
-      response.end(userToken);
+      response.writeHead(httpStatusCodes.OK, {
+        "Content-Type": "application/json",
+      });
+      response.end(JSON.stringify({ token: userToken }));
     }
     // const chunks = [];
     // request.on("data", (chunk) => {
