@@ -1,6 +1,5 @@
 const apiUserURL = "http://127.0.0.1:3000";
-
-async function signIn(username, password) {
+export async function signIn(username, password) {
   try {
     const header = {
       "Content-Type": "application/json",
@@ -10,9 +9,10 @@ async function signIn(username, password) {
       password: password,
     };
     const response = await fetch(`${apiUserURL}/login`, {
-      method: "POST", // magic value 
+      method: "POST", // magic value
       headers: header,
       body: JSON.stringify(user),
+      // mode: "no-cors",
     });
     if (response.ok) {
       return response.text();
@@ -24,7 +24,7 @@ async function signIn(username, password) {
   }
 }
 
-async function signUp(username, password) {
+export async function signUp(username, password) {
   try {
     const header = {
       "Content-Type": "application/json",
@@ -37,6 +37,7 @@ async function signUp(username, password) {
       method: "POST",
       headers: header,
       body: JSON.stringify(user),
+      mode: "no-cors",
     });
     if (response.ok) {
       return response.text();
@@ -63,4 +64,3 @@ async function signUp(username, password) {
 //     console.error("Error:", error.message);
 //   }
 // })();
-X 

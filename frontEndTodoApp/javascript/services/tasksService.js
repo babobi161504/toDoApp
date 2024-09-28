@@ -1,9 +1,8 @@
-const apiUserURL = "http://127.0.0.1:3000/tasks";
-async function fetchTaskList() {
+const apiUserURL = "http://127.0.0.1:3000";
+export async function fetchTaskList(token) {
   try {
-    const token = localStorage.getItem("token");
-    const url = `${apiTaskUR}`;
-    const response = await fetch(`${url}`, {
+    // const token = localStorage.getItem("token");
+    const response = await fetch(`${apiUserURL}/get-task`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -20,20 +19,18 @@ async function fetchTaskList() {
   }
 }
 
-async function addTaskToServer(task) {
-  const token = localStorage.getItem("token");
-  const response = await fetch(`${apiTaskURL}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(task),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status} - ${response.statusText}`);
-  }
-
-  return response;
+export async function addTaskToServer(token, task) {
+  // const token = localStorage.getItem("token");
+  // const response = await fetch(`${apiTaskURL}`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  //   body: JSON.stringify(task),
+  // });
+  // if (!response.ok) {
+  //   throw new Error(`Error: ${response.status} - ${response.statusText}`);
+  // }
+  // return response;
 }

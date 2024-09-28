@@ -1,35 +1,12 @@
+import { signIn } from "./services/authentication.js"; // Note the .js extension
+
 const formSignIn = document.querySelector(".form");
 const userLocal = JSON.parse(localStorage.getItem("USER_INFO")) || [];
 const userName = document.querySelector(".username");
 const password = document.querySelector(".password");
 const rememberMe = document.querySelector(".remember-me");
+const error = document.querySelector(".error");
 const eyePassword = document.querySelector(".password-eye");
-
-function handleLogin(event) {
-  event.preventDefault();
-  for (let i = 0; i < userLocal.length; i++) {
-    if (
-      userName.value === userLocal[i].userName &&
-      password.value === userLocal[i].password
-    ) {
-      const userId = userLocal[i].userId;
-      const userData = {
-        userId: userId,
-        userName: userName.value,
-        loggedIn: true,
-      };
-      if (rememberMe.checked) {
-        localStorage.setItem("LOGGED_IN_USER", JSON.stringify(userData));
-      } else {
-        sessionStorage.setItem("LOGGED_IN_USER", JSON.stringify(userData));
-      }
-      window.location.href = "../html/main.html";
-      return;
-    }
-  }
-  alert("Invalid username or password.");
-}
-formSignIn.addEventListener("submit", handleLogin);
 
 function handleDOMContentLoaded() {
   const storage = {
@@ -44,9 +21,44 @@ function handleDOMContentLoaded() {
     window.location.href = "../html/main.html";
   }
 }
-document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+
+async function handleLogin(event) {
+  event.preventDefault();
+
+  // Check if username and password fields are filled
+  if (!userName.value || !password.value) {
+    error.innerText = "Please fill in all the required information";
+    return;
+  }
+  try {
+    // Attempt to sign in
+    const token = await signIn(userName.value, password.value);
+    // Handle remember me functionality
+    if (rememberMe.checked) {
+      localStorage.setItem(
+        "LOGGED_IN_USER",
+        JSON.stringify({ token, loggedIn: true })
+      );
+    } else {
+      sessionStorage.setItem(
+        "LOGGED_IN_USER",
+        JSON.stringify({ token, loggedIn: true })
+      );
+    }
+
+    // Redirect to main page on successful login
+    window.location.href = "../html/main.html";
+  } catch (error) {
+    // Display error message
+    error.innerText = error || "An error occurred during login";
+  }
+}
 
 function handleEyePassword() {
   password.type = password.type === "password" ? "text" : "password";
 }
+
+// Event listeners
+document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+formSignIn.addEventListener("submit", handleLogin);
 eyePassword.addEventListener("click", handleEyePassword);

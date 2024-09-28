@@ -61,6 +61,7 @@ async function signUp(username, password) {
       body: JSON.stringify(user),
       mode: "no-cors",
     });
+    response.text();
     if (response.ok) {
       return response.text();
     } else {

@@ -155,8 +155,15 @@ async function handleLogin(request, response) {
     });
     if (user) {
       const userToken = createBearerToken(user._id);
-      response.statusCode = httpStatusCodes.OK;
+      response.writeHead(httpStatusCodes.OK, {
+        "Content-Type": "application/json",
+      });
       response.end(userToken);
+    } else {
+      response.writeHead(httpStatusCodes.UNAUTHORIZED, {
+        "Content-Type": "application/json",
+      });
+      response.end(JSON.stringify({ error: "Invalid username or password" }));
     }
     // const chunks = [];
     // request.on("data", (chunk) => {
@@ -190,9 +197,13 @@ async function handleLogin(request, response) {
     //   }
     // });
   } catch (error) {
-    console.error(error);
-    response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-    response.end("Internal server error");
+    // console.error(error);
+    // response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
+    // response.end("Internal server error");
+    response.writeHead(httpStatusCodes.INTERNAL_SERVER_ERROR, {
+      "Content-Type": "application/json",
+    });
+    response.end(JSON.stringify({ error: "Internal server error" }));
   }
 }
 
