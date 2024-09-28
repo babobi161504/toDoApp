@@ -15,7 +15,7 @@ body {
 
 #logout-button {
   padding: 10px 20px;
-  background-color: rgb(63, 118, 255);
+  background-color: #dc3545;
   color: white;
   border: none;
   border-radius: 5px;
@@ -24,8 +24,9 @@ body {
 }
 
 #logout-button:hover {
-  background-color: rgb(66, 105, 202);
+  background-color: #c82333;
 }
+
 .todo-container {
   width: 320px;
   text-align: center;
@@ -46,17 +47,13 @@ body {
 .todo-input-container button {
   margin-left: 5px;
   padding: 5px 10px;
-  background-color: rgb(63, 118, 255);
+  background-color: green;
   color: white;
   border: none;
   cursor: pointer;
 }
 
-.todo-input-container button:hover {
-  background-color: rgb(66, 105, 202);
-}
-
-.todo-input-container button#cancel {
+.todo-input-container button.cancel {
   background-color: red;
 }
 
@@ -75,14 +72,10 @@ body {
 .todo-item button {
   margin-left: 5px;
   padding: 5px;
-  background-color: rgb(63, 118, 255);
+  background-color: green;
   color: white;
   border: none;
   cursor: pointer;
-}
-
-.todo-item button:hover {
-  background-color: rgb(66, 105, 202);
 }
 
 .todo-item button.delete {
@@ -99,7 +92,7 @@ body {
 .todo-list button {
   margin-left: 5px;
   padding: 5px;
-  background-color: rgb(63, 118, 255);
+  background-color: green;
   color: white;
   border: none;
   cursor: pointer;
@@ -109,7 +102,7 @@ body {
   margin-top: 10px;
 }
 
-#filter {
+.filter {
   padding: 5px;
 }
 

@@ -5,6 +5,7 @@ const userLocal = JSON.parse(localStorage.getItem("USER_INFO")) || [];
 const userName = document.querySelector(".username");
 const password = document.querySelector(".password");
 const rememberMe = document.querySelector(".remember-me");
+const error = document.querySelector(".error");
 const eyePassword = document.querySelector(".password-eye");
 
 function handleDOMContentLoaded() {
@@ -23,29 +24,34 @@ function handleDOMContentLoaded() {
 
 async function handleLogin(event) {
   event.preventDefault();
-  // cái này là lấy một lish user là không dc
-  const token = await signIn("huy", "123");
-  // for (let i = 0; i < userLocal.length; i++) {
-  //   if (
-  //     userName.value === userLocal[i].userName &&
-  //     password.value === userLocal[i].password
-  //   ) {
-  //     const userId = userLocal[i].userId;
-  //     const userData = {
-  //       userId: userId,
-  //       userName: userName.value,
-  //       loggedIn: true,
-  //     };
-  //     if (rememberMe.checked) {
-  //       localStorage.setItem("LOGGED_IN_USER", JSON.stringify(userData));
-  //     } else {
-  //       sessionStorage.setItem("LOGGED_IN_USER", JSON.stringify(userData));
-  //     }
-  //     window.location.href = "../html/main.html";
-  //     return;
-  //   }
-  // }
-  alert(token);
+
+  // Check if username and password fields are filled
+  if (!userName.value || !password.value) {
+    error.innerText = "Please fill in all the required information";
+    return;
+  }
+  try {
+    // Attempt to sign in
+    const token = await signIn(userName.value, password.value);
+    // Handle remember me functionality
+    if (rememberMe.checked) {
+      localStorage.setItem(
+        "LOGGED_IN_USER",
+        JSON.stringify({ token, loggedIn: true })
+      );
+    } else {
+      sessionStorage.setItem(
+        "LOGGED_IN_USER",
+        JSON.stringify({ token, loggedIn: true })
+      );
+    }
+
+    // Redirect to main page on successful login
+    window.location.href = "../html/main.html";
+  } catch (error) {
+    // Display error message
+    error.innerText = error || "An error occurred during login";
+  }
 }
 
 function handleEyePassword() {

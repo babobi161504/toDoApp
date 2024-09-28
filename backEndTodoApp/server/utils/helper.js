@@ -1,12 +1,12 @@
 const fs = require("fs").promises;
 const jwt = require("jsonwebtoken");
-function createBearerToken(user) {
+function createBearerToken(userID) {
   const payload = {
-    id: user.id,
+    id: userID,
   };
-  const secret = "your-secret-key";
-  const options = { expiresIn: "1h" };
-  return jwt.sign(payload, secret, options);
+  const secret = "secretKey";
+  const options = { expiresIn: "1800s" };
+  return jwt.sign(payload, secret);
 }
 function verifyBearerToken(token) {
   const secret = "secretKey";
@@ -57,3 +57,12 @@ module.exports = {
   writeJSONFile,
   getDataFromRequest,
 };
+
+// const user = 2;
+// const token = createBearerToken(user);
+// const decodedToken = verifyBearerToken(
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZGViYjIwMDRkNWYwM2Y2MTg5OTkxZiIsImlhdCI6MTcyNzQ1ODc4OH0.vLyUyszobc6RWCX7KG_BmyP4PKqs61HGLq83opxMYdM"
+// );
+
+// console.log(`Token: ${token}`);
+// console.log(`Decoded ID: ${decodedToken.data.id}`);

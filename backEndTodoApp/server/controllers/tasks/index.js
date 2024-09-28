@@ -231,7 +231,7 @@
 // };
 const { MongoClient, ObjectId } = require("mongodb");
 const { httpStatusCodes } = require("../../utils/constant");
-
+const { verifyBearerToken } = require("../../utils/helper");
 // MongoDB connection URI
 const uri =
   "mongodb+srv://NguyenDucNghia:cmDmebL5168KMJPx@cluster0.gf1bc.mongodb.net/";
@@ -259,7 +259,7 @@ async function handleAddTask(request, response) {
       const taskData = JSON.parse(Buffer.concat(chunks).toString());
       const bearerToken = request.headers.authorization.split(" ")[1]; // Lấy token từ header
       const [username, password] = bearerToken.split(".");
-      
+
       const db = client.db("todo_app");
       const users = db.collection("users");
       const tasks = db.collection("tasks");
@@ -292,13 +292,21 @@ async function handleAddTask(request, response) {
 // Read
 async function handleGetTasksByToken(request, response) {
   try {
-    const bearerToken = request.headers.authorization.split(" ")[1];
+    const decodedToken = verifyBearerToken(
+      request.headers.authorization.split(" ")[1]
+    );
+    if (!decodedToken.success) {
+      response.statusCode = httpStatusCodes.UNAUTHORIZED;
+      response.end("Unauthorized");
+      return;
+    }
+    const _id = new ObjectId(decodedToken.data.id);
 
     const db = await connectToDatabase();
     const tasksCollection = db.collection("tasks");
     const usersCollection = db.collection("users");
 
-    const user = await usersCollection.findOne({ token: bearerToken });
+    const user = await usersCollection.findOne({ _id: _id });
 
     if (!user) {
       response.statusCode = httpStatusCodes.UNAUTHORIZED;
