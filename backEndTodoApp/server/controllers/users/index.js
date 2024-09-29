@@ -231,9 +231,16 @@ async function handleRegister(request, response) {
       username: requestData.username,
       password: requestData.password,
     });
-    response.statusCode = httpStatusCodes.CREATED;
+    // response.statusCode = httpStatusCodes.CREATED;
+    // const userToken = createBearerToken(user._id);
+    // response.end(userToken);
+    //Tạo token cho user
     const userToken = createBearerToken(user._id);
-    response.end(userToken);
+    //Trả về token cho frontend dưới dạng JSON
+    response.statusCode = httpStatusCodes.CREATED;
+    response.setHeader("Content-Type", "application/json");
+    const responseBody = JSON.stringify({ token: userToken });
+    response.end(responseBody);
     // request.on("data", (chunk) => {
     //   chunks.push(chunk);
     // });

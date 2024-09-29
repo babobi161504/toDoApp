@@ -24,10 +24,37 @@ export async function signIn(username, password) {
   }
 }
 
+// Old
+// export async function signUp(username, password) {
+//   try {
+//     const header = {
+//       "Content-Type": "application/json",
+//     };
+//     const user = {
+//       username: username,
+//       password: password,
+//     };
+//     const response = await fetch(`${apiUserURL}/register`, {
+//       method: "POST",
+//       headers: header,
+//       body: JSON.stringify(user),
+//       // mode: "no-cors",
+//     });
+//     if (response.ok) {
+//       return response.text();
+//     } else {
+//       throw new Error(`Error: ${response.status} - ${response.statusText}`);
+//     }
+//   } catch (error) {
+//     throw new Error("Network Error: " + error.message);
+//   }
+// }
+
+// New
 export async function signUp(username, password) {
   try {
-    const header = {
-      "Content-Type": "application/json",
+    const headers = {
+      // "Content-Type": "application/json",
     };
     const user = {
       username: username,
@@ -35,12 +62,13 @@ export async function signUp(username, password) {
     };
     const response = await fetch(`${apiUserURL}/register`, {
       method: "POST",
-      headers: header,
+      headers,
       body: JSON.stringify(user),
-      mode: "no-cors",
+      // mode: "no-cors",
     });
     if (response.ok) {
-      return response.text();
+      const token = await response.text();
+      return token;
     } else {
       throw new Error(`Error: ${response.status} - ${response.statusText}`);
     }
