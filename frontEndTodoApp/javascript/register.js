@@ -6,11 +6,11 @@ const error = document.querySelector(".error");
 const eyePassword = document.querySelector(".password-eye");
 const eyeRepeatPassword = document.querySelector(".repeat-password-eye");
 const users = JSON.parse(localStorage.getItem("USER_INFO")) || [];
-function generateUserId() {
-  return btoa(userName.value) + Date.now();
-}
+import { signUp } from "./services/authentication.js";
+// function generateUserId() {
+//   return btoa(userName.value) + Date.now();
+// }
 
-const apiUserURL = "http://127.0.0.1:3000";
 function handleRegister(event) {
   event.preventDefault();
   const isUserExist = users.some(function (user) {
@@ -23,55 +23,34 @@ function handleRegister(event) {
   } else if (password.value != repeatPassword.value) {
     error.innerText = "Passwords do not match.";
   } else {
-    const userId = generateUserId();
+    // const userId = generateUserId();
 
-    users.push({
-      userId: userId,
-      userName: userName.value,
-      password: password.value,
-    });
-    localStorage.setItem("USER_INFO", JSON.stringify(users));
-    localStorage.removeItem("LOGGED_IN_USER");
-
-    signUp(userName.value, password.value).then((token) => {
-      console.log("User registered successfully, token:", token);
-      window.location.href = "../html/login.html";
-    });
-    // .catch((error) => {
-    //   console.error("Error during sign up:", error.message);
-    //   error.innerText = "Failed to sign up. Please try again.";
+    // users.push({
+    //   userId: userId,
+    //   userName: userName.value,
+    //   password: password.value,
     // });
+    // localStorage.setItem("USER_INFO", JSON.stringify(users));
+    // localStorage.removeItem("LOGGED_IN_USER");
+
+    signUp(userName.value, password.value)
+      .then((token) => {
+        console.log("User registered successfully, token:", token);
+        if (token) {
+          localStorage.setItem("LOGGED_IN_USER", JSON.stringify({ token }));
+          // window.location.href = "../html/login.html";
+        } else {
+          error.innerText = "Failed to receive token";
+        }
+      })
+      .catch((error) => {
+        console.error("Error during sign up:", error.message);
+        error.innerText = "Failed to sign up. Please try again.";
+      });
     // window.location.href = "../html/login.html";
   }
 }
 formSignUp.addEventListener("submit", handleRegister);
-
-async function signUp(username, password) {
-  try {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const user = {
-      username: username,
-      password: password,
-    };
-    const response = await fetch(`${apiUserURL}/register`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(user),
-      mode: "no-cors",
-    });
-    response.text();
-    if (response.ok) {
-      return response.text();
-    } else {
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
-    }
-  } catch (error) {
-    throw new Error("Network Error: " + error.message);
-  }
-}
-formSignUp.addEventListener("submit", signUp);
 
 // async function handleRegister(event) {
 //   event.preventDefault();

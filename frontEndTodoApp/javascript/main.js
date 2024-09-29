@@ -340,9 +340,9 @@ function displayTask() {
     });
   }
   function logout() {
-    localStorage.setItem("rememberMe", "false");
-    sessionStorage.setItem("rememberMe", "false");
-    location.assign("../html/signIn.html");
+    localStorage.removeItem("LOGGED_IN_USER");
+    sessionStorage.removeItem("LOGGED_IN_USER");
+    location.assign("../html/login.html");
   }
 
   filterDropdown.addEventListener("change", filterTasks);
