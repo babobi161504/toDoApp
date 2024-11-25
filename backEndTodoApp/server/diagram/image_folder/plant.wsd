@@ -1,0 +1,7 @@
+@startuml handleAddTask 
+start
+repeat: Component(UI)
+: dispatcher(action) ; 
+repeat  while (state | store)  ;   
+stop
+@enduml
