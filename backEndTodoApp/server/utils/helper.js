@@ -1,4 +1,5 @@
 const fs = require("fs").promises;
+const { error } = require("console");
 const jwt = require("jsonwebtoken");
 function createBearerToken(userID) {
   const payload = {
@@ -38,17 +39,25 @@ async function writeJSONFile(path, data) {
   }
 }
 
-const getDataFromRequest = (req) => {
+async function getDataFromRequest(req) {
   return new Promise((resolve, reject) => {
     let body = "";
     req.on("data", (chunk) => {
       body += chunk.toString();
     });
     req.on("end", () => {
-      resolve(JSON.parse(body));
+      try {
+        resolve(JSON.parse(body));
+      } catch (error) {
+        reject(new Error("Invalid JSON format"));
+      }
+    });
+    req.on("error", (error) => {
+      reject(error);
     });
   });
-};
+}
+
 
 module.exports = {
   createBearerToken,
@@ -58,11 +67,4 @@ module.exports = {
   getDataFromRequest,
 };
 
-// const user = 2;
-// const token = createBearerToken(user);
-// const decodedToken = verifyBearerToken(
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZGViYjIwMDRkNWYwM2Y2MTg5OTkxZiIsImlhdCI6MTcyNzQ1ODc4OH0.vLyUyszobc6RWCX7KG_BmyP4PKqs61HGLq83opxMYdM"
-// );
 
-// console.log(`Token: ${token}`);
-// console.log(`Decoded ID: ${decodedToken.data.id}`);
