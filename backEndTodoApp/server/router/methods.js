@@ -22,4 +22,5 @@ const routerMethods = {
     }
   },
 };
+
 module.exports = routerMethods;

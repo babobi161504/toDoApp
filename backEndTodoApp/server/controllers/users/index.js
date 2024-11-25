@@ -1,133 +1,7 @@
-// const fs = require("fs");
-// const { Module } = require("module");
-// const { buffer } = require("stream/consumers");
-// const path = "./user.json";
-// const { httpStatusCodes } = require("../../utils/constant");
-
-// const { MongoClient } = require("mongodb");
-// const uri = 'mongodb+srv://NguyenDucNghia:cmDmebL5168KMJPx@cluster0.gf1bc.mongodb.net/';
-// const client = new MongoClient(uri);
-
-// function handleLogin(request, response) {
-//   const chunks = [];
-//   request.on("data", (chunk) => {
-//     chunks.push(chunk);
-//   });
-//   request.on("end", () => {
-//     const requestData = JSON.parse(Buffer.concat(chunks).toString());
-//     fs.readFile(path, "utf8", (error, data) => {
-//       if (error) {
-//         console.log(error);
-//         response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-//         response.end("Internal server error");
-//         return;
-//       }
-//       const users = JSON.parse(data);
-//       const user = users.find(
-//         (u) =>
-//           u.username === requestData.username &&
-//           u.password === requestData.password
-//       );
-//       if (user) {
-//         var token = `${user.username}.${user.password}`;
-//         user.token = token;
-//         const index = users.findIndex((u) => u.username === user.username);
-//         users[index] = user;
-//         fs.writeFile(path, JSON.stringify(users), (error) => {
-//           if (error) {
-//             console.log(error);
-//             response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-//             response.end("Internal server error");
-//             return;
-//           }
-//         });
-//         response.statusCode = httpStatusCodes.OK;
-//         response.end(token);
-//         return;
-//       }
-//       response.statusCode = httpStatusCodes.UNAUTHORIZED;
-//       response.end("Invalid username or password");
-//     });
-//   });
-// }
-
-// function handleRegister(request, response) {
-//   const chunks = [];
-//   request.on("data", (chunk) => {
-//     chunks.push(chunk);
-//   });
-//   request.on("end", () => {
-//     const requestData = JSON.parse(Buffer.concat(chunks).toString());
-//     fs.readFile(path, "utf8", (error, data) => {
-//       if (error) {
-//         console.log(error);
-//         response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-//         response.end("Internal server error");
-//         return;
-//       }
-//       const users = JSON.parse(data);
-
-//       const existingUser = users.find(
-//         (u) => u.username === requestData.username
-//       );
-
-// if (existingUser) {
-//     user.token = null;
-//     const index = users.findIndex(u => u.username === user.username);
-//     users[index] = user;
-//     fs.writeFile(path, JSON.stringify(users), (error) => {
-//         if (error) {
-//             console.log(error);
-//             response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-//             response.end("Internal server error");
-//             return;
-//         }
-//     });
-//     response.statusCode = httpStatusCodes.OK;
-//     response.end("Successfully logged out");
-//     return;
-// }
-// response.statusCode = httpStatusCodes.UNAUTHORIZED;
-// response.end("Invalid username");
-//       if (existingUser) {
-//         response.statusCode = httpStatusCodes.CONFLICT;
-//         response.end("Username already exists");
-//         return;
-//       }
-//       const userId = `${requestData.username}_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`
-//       const token = `${requestData.username}.${requestData.password}`;
-//       const newUser = {
-//         username: requestData.username,
-//         password: requestData.password,
-//         token: token,
-//         userId: userId
-//       };
-
-//       users.push(newUser);
-
-//       fs.writeFile(path, JSON.stringify(users), (error) => {
-//         if (error) {
-//           console.log(error);
-//           response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-//           response.end("Internal server error");
-//           return;
-//         }
-//         response.statusCode = httpStatusCodes.CREATED;
-//         response.end(token);
-//       });
-//     });
-//   });
-// }
-
-// module.exports = {
-//   handleLogin,
-//   handleRegister,
-// };
 const { MongoClient } = require("mongodb");
 const { httpStatusCodes } = require("../../utils/constant");
-// const { createBearerToken, verifyBearerToken } = require("../../utils/helper");
 const { createBearerToken, getDataFromRequest } = require("../../utils/helper");
-// MongoDB connection URI
+
 const uri =
   "mongodb+srv://NguyenDucNghia:cmDmebL5168KMJPx@cluster0.gf1bc.mongodb.net/";
 const client = new MongoClient(uri);
@@ -165,41 +39,8 @@ async function handleLogin(request, response) {
       });
       response.end(JSON.stringify({ error: "Invalid username or password" }));
     }
-    // const chunks = [];
-    // request.on("data", (chunk) => {
-    //   chunks.push(chunk);
-    // });
-    // request.on("end", async () => {
-    //   const requestData = JSON.parse(Buffer.concat(chunks).toString());
-
-    //   const db = await connectToDatabase();
-    //   const usersCollection = db.collection("users");
-
-    //   // Tìm user với username và password
-    //   const user = await usersCollection.findOne({
-    //     username: requestData.username,
-    //     password: requestData.password,
-    //   });
-    //   console.log;
-    //   if (user) {
-    //     // const token = `${user.username}.${user.password}`;
-    //     // // Cập nhật token cho người dùng
-    //     // await usersCollection.updateOne(
-    //     //   { username: user.username },
-    //     //   { $set: { token: token } }
-    //     // );
-
-    //     response.statusCode = httpStatusCodes.OK;
-    //     response.end(createBearerToken(user._id));
-    //   } else {
-    //     response.statusCode = httpStatusCodes.UNAUTHORIZED;
-    //     response.end("Invalid username or password");
-    //   }
-    // });
+    
   } catch (error) {
-    // console.error(error);
-    // response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-    // response.end("Internal server error");
     response.writeHead(httpStatusCodes.INTERNAL_SERVER_ERROR, {
       "Content-Type": "application/json",
     });
@@ -231,9 +72,7 @@ async function handleRegister(request, response) {
       username: requestData.username,
       password: requestData.password,
     });
-    // response.statusCode = httpStatusCodes.CREATED;
-    // const userToken = createBearerToken(user._id);
-    // response.end(userToken);
+
     //Tạo token cho user
     const userToken = createBearerToken(user._id);
     //Trả về token cho frontend dưới dạng JSON
@@ -241,47 +80,7 @@ async function handleRegister(request, response) {
     response.setHeader("Content-Type", "application/json");
     const responseBody = JSON.stringify({ token: userToken });
     response.end(responseBody);
-    // request.on("data", (chunk) => {
-    //   chunks.push(chunk);
-    // });
-    // request.on("end", async () => {
-    //   const requestData = JSON.parse(Buffer.concat(chunks).toString());
-
-    //   const db = await connectToDatabase();
-    //   const usersCollection = db.collection("users");
-
-    //   const existingUser = await usersCollection.findOne({
-    //     username: requestData.username,
-    //   });
-
-    //   if (existingUser) {
-    //     response.statusCode = httpStatusCodes.CONFLICT;
-    //     response.end("Username already exists");
-    //     return;
-    //   }
-
-    //   const token = `${requestData.username}.${requestData.password}`;
-    //   const newUser = {
-    //     username: requestData.username,
-    //     password: requestData.password,
-    //     token: token,
-    //   };
-    //   // const userId = await usersCollection.findOne({
-    //   //   username: requestData.username,
-    //   //   password: requestData.password,
-    //   // });
-
-    //   // Thêm user mới vào MongoDB
-    //   await usersCollection.insertOne(newUser);
-
-    //   const userId = await usersCollection.findOne({
-    //     username: requestData.username,
-    //     password: requestData.password,
-    //   });
-    //   response.statusCode = httpStatusCodes.CREATED;
-
-    //   response.end(createBearerToken(userId._id));
-    // });
+   
   } catch (error) {
     console.error(error);
     response.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;

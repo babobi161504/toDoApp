@@ -19,7 +19,7 @@ module.exports = {
       value: "/login",
     },
     register: {
-      value: "/register"
-    }
+      value: "/register",
+    },
   },
 };
